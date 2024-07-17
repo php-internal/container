@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Buggregator\Trap\Service;
+namespace Internal\DLoad\Service;
 
-use Buggregator\Trap\Destroyable;
-use Buggregator\Trap\Service\Config\ConfigLoader;
+use Internal\DLoad\Service\Config\ConfigLoader;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Yiisoft\Injector\Injector;
 
 /**
- * Simple Trap container.
+ * Simple container.
  *
  * @internal
  */
@@ -94,12 +93,13 @@ final class Container implements ContainerInterface, Destroyable
 
         \assert($result instanceof $class, "Created object must be instance of {$class}.");
 
-        // Detect Trap related types
+        // Detect related types
         // Configs
-        if (\str_starts_with($class, 'Buggregator\\Trap\\Config\\')) {
+        if (\str_starts_with($class, 'Internal\\DLoad\\Config\\')) {
             // Hydrate config
+            /** @var ConfigLoader $configLoader */
             $configLoader = $this->get(ConfigLoader::class);
-            $configLoader->hidrate($result);
+            $configLoader->hydrate($result);
         }
 
         return $result;
@@ -112,9 +112,18 @@ final class Container implements ContainerInterface, Destroyable
      * @param class-string<T> $id
      * @param array|\Closure(Container): T $binding
      */
-    public function bind(string $id, \Closure|array $binding): void
+    public function bind(string $id, \Closure|array|null $binding = null): void
     {
-        $this->factory[$id] = $binding;
+        if ($binding !== null) {
+            $this->factory[$id] = $binding;
+            return;
+        }
+
+        (\class_exists($id) && \is_a($id, Factoriable::class, true)) or throw new \InvalidArgumentException(
+            "Class `$id` must have a factory or be a factory itself and implement `Factoriable`.",
+        );
+
+        $this->factory[$id] = $id::create(...);
     }
 
     public function destroy(): void

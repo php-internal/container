@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Buggregator\Trap\Service\Config;
+namespace Internal\DLoad\Service\Config;
 
 /**
  * @internal
