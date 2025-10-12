@@ -2,11 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Internal\DLoad\Module\Common\Internal;
+namespace Testo\Internal\Service;
 
-use Internal\DLoad\Module\Common\Internal\Injection\ConfigLoader;
-use Internal\DLoad\Service\Container;
-use Internal\DLoad\Service\Factoriable;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Yiisoft\Injector\Injector;
@@ -19,7 +16,7 @@ use Yiisoft\Injector\Injector;
  *
  * @internal
  */
-final class ObjectContainer implements Container, ContainerInterface
+final class Container implements ContainerInterface
 {
     /** @var array<class-string, object> */
     private array $cache = [];
@@ -76,12 +73,12 @@ final class ObjectContainer implements Container, ContainerInterface
 
         // Detect related types
         // Configs
-        if (\str_starts_with($class, 'Internal\\DLoad\\Module\\Config\\Schema\\')) {
-            // Hydrate config
-            /** @var ConfigLoader $configLoader */
-            $configLoader = $this->get(ConfigLoader::class);
-            $configLoader->hydrate($result);
-        }
+        // if (\str_starts_with($class, 'Internal\\Module\\Config\\Schema\\')) {
+        //     // Hydrate config
+        //     /** @var ConfigLoader $configLoader */
+        //     $configLoader = $this->get(ConfigLoader::class);
+        //     $configLoader->hydrate($result);
+        // }
 
         return $result;
     }
