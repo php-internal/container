@@ -6,6 +6,7 @@ namespace Testo\Internal\Service;
 
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Testo\Internal\Container;
 use Yiisoft\Injector\Injector;
 
 /**
@@ -16,7 +17,7 @@ use Yiisoft\Injector\Injector;
  *
  * @internal
  */
-final class Container implements ContainerInterface
+final class ObjectContainer implements Container
 {
     /** @var array<class-string, object> */
     private array $cache = [];
@@ -34,7 +35,7 @@ final class Container implements ContainerInterface
         $this->injector = (new Injector($this))->withCacheReflections(false);
         $this->cache[Injector::class] = $this->injector;
         $this->cache[self::class] = $this;
-        $this->cache[Container::class] = $this;
+        $this->cache[ObjectContainer::class] = $this;
         $this->cache[ContainerInterface::class] = $this;
     }
 
