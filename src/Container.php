@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Testo\Internal;
+namespace Testo\Common;
 
 /**
  * Application dependency injection container.

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Testo\Internal\Service;
+namespace Testo\Common\Internal;
 
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Testo\Internal\Container;
+use Testo\Common\Container;
 use Yiisoft\Injector\Injector;
 
 /**
