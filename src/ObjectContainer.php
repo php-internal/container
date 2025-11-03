@@ -64,7 +64,7 @@ final class ObjectContainer implements Container
     public function set(object $service, ?string $id = null): void
     {
         \assert($id === null || $service instanceof $id, "Service must be instance of {$id}.");
-        $this->cache[$id ?? \get_class($service)] = $service;
+        $this->cache[$id ?? $service::class] = $service;
     }
 
     public function make(string $class, array $arguments = []): object
