@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Testo\Common;
 
+use Internal\Destroy\Destroyable;
+use Psr\Container\ContainerInterface;
+
 /**
  * Application dependency injection container.
  *
@@ -23,7 +26,7 @@ namespace Testo\Common;
  *
  * @internal
  */
-interface Container extends \Internal\Destroy\Destroyable, \Psr\Container\ContainerInterface
+interface Container extends Destroyable, ContainerInterface
 {
     /**
      * Retrieves a service from the container.

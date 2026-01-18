@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Testo\Common\Internal;
+namespace Testo\Application\Internal;
 
 use Internal\Destroy\Destroyable;
 use Psr\Container\ContainerInterface;
