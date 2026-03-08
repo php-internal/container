@@ -84,4 +84,14 @@ interface Container extends Destroyable, ContainerInterface
      *        function, constructor arguments, or alias class name.
      */
     public function bind(string $id, \Closure|string|array|null $binding = null): void;
+
+    /**
+     * Invokes given closure or function withing specific container scope.
+     *
+     * @template T
+     * @param \Closure(Container): T
+     * @return T
+     * @throws \Throwable
+     */
+    public function scope(\Closure $scope): mixed;
 }
