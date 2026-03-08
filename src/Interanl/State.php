@@ -152,7 +152,7 @@ final class State
     public function clone(ObjectContainer $container): self
     {
         $self = clone $this;
-        [$cache, $this->cache, $self->destroy] = [$self->cache, [], []];
+        [$cache, $self->cache, $self->destroy] = [$self->cache, [], []];
         $self->__construct($container);
 
         /** @var array<int, object> $cloned */
