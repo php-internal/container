@@ -21,7 +21,15 @@ final class State
     /** @var array<class-string, object> */
     private array $cache = [];
 
-    /** @var array<class-string, array|\Closure(mixed ...): object> */
+    /**
+     * Bindings:
+     * Array of:
+     * - {@see \Closure}: just a factory
+     * - {@see array}: arguments for the Injector
+     * with the class name as key.
+     *
+     * @var array<class-string, array|\Closure(self): object>
+     */
     private array $factory = [];
 
     /** @var list<Inflector> */
@@ -88,16 +96,16 @@ final class State
      */
     public function make(string $class, array $arguments = []): object
     {
-        $binding = $this->factory[$class] ?? null;
+        $binding = $this->factory[$class] ?? [];
 
-        if ($binding instanceof \Closure) {
-            $result = $this->injector->invoke($binding);
-        } else {
+        if (\is_array($binding)) {
             try {
-                $result = $this->injector->make($class, \array_merge((array) $binding, $arguments));
+                $result = $this->injector->make($class, \array_merge($binding, $arguments));
             } catch (\Throwable $e) {
                 throw new class("Unable to create object of class $class.", previous: $e) extends \RuntimeException implements NotFoundExceptionInterface {};
             }
+        } else {
+            $result = $binding($this);
         }
 
         \assert($result instanceof $class, "Created object must be instance of {$class}.");
@@ -111,7 +119,7 @@ final class State
 
     /**
      * @template T
-     * @param class-string<T> $id Service identifier
+     * @param class-string<T> $id
      * @param null|class-string<T>|array<string, mixed>|\Closure(mixed ...): T $binding
      */
     public function bind(string $id, \Closure|string|array|null $binding = null): void
@@ -128,10 +136,16 @@ final class State
 
             /** @var class-string<T> $binding */
             $binding = match (true) {
-                $id !== $binding => fn(): object => $this->get($binding),
-                \is_a($binding, Factoriable::class, true) => $binding::create(...),
-                default => fn(): object => $this->injector->make($binding),
+                $id !== $binding => static fn(self $self): object => $self->get($binding),
+                // \is_a($binding, Factoriable::class, true) => static fn(self $self): object => $binding::create(...),
+                \is_a($binding, Factoriable::class, true) => static fn(self $self): object => $self
+                    ->injector->invoke($binding::create(...)),
+                default => static fn(self $self): object => $self->injector->make($binding),
             };
+        } elseif ($binding instanceof \Closure) {
+            $binding = static fn(self $self): object => $self->injector->invoke($binding);
+        } elseif ($binding === null) {
+            $binding = [];
         }
 
         $this->factory[$id] = $binding;
