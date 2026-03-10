@@ -40,6 +40,7 @@ interface Container extends Destroyable, ContainerInterface
      *
      * @psalm-suppress MoreSpecificImplementedParamType, InvalidReturnType
      */
+    #[\Override]
     public function get(string $id, array $arguments = []): object;
 
     /**
@@ -52,6 +53,7 @@ interface Container extends Destroyable, ContainerInterface
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
+    #[\Override]
     public function has(string $id): bool;
 
     /**
@@ -89,7 +91,7 @@ interface Container extends Destroyable, ContainerInterface
      * Invokes given closure or function withing specific container scope.
      *
      * @template T
-     * @param \Closure(Container): T
+     * @param \Closure(Container): T $scope
      * @return T
      * @throws \Throwable
      */

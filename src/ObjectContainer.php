@@ -30,32 +30,38 @@ final class ObjectContainer implements Container
         $this->state->addInflector($inflector);
     }
 
+    #[\Override]
     public function get(string $id, array $arguments = []): object
     {
         return $this->state->get($id, $arguments);
     }
 
+    #[\Override]
     public function has(string $id): bool
     {
         return $this->state->has($id);
     }
 
+    #[\Override]
     public function set(object $service, ?string $id = null): void
     {
         \assert($id === null || $service instanceof $id, "Service must be instance of {$id}.");
         $this->state->set($service, $id);
     }
 
+    #[\Override]
     public function make(string $class, array $arguments = []): object
     {
         return $this->state->make($class, $arguments);
     }
 
+    #[\Override]
     public function bind(string $id, \Closure|string|array|null $binding = null): void
     {
         $this->state->bind($id, $binding);
     }
 
+    #[\Override]
     public function scope(\Closure $scope): mixed
     {
         $oldState = $this->state;
@@ -90,6 +96,7 @@ final class ObjectContainer implements Container
         }
     }
 
+    #[\Override]
     public function destroy(): void
     {
         $this->state->destroy();
