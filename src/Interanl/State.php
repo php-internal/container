@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Testo\Application\Internal\Container;
+namespace Internal\Container\Interanl;
 
+use Internal\Container\Container;
+use Internal\Container\Factoriable;
+use Internal\Container\Inflector;
+use Internal\Container\ObjectContainer;
 use Internal\Destroy\Destroyable;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Testo\Application\Internal\ObjectContainer;
-use Testo\Common\Container;
-use Testo\Common\Factoriable;
-use Testo\Common\Inflector;
 use Yiisoft\Injector\Injector;
 
 /**

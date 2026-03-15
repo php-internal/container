@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Testo\Common;
+namespace Internal\Container;
 
 use Internal\Destroy\Destroyable;
 use Psr\Container\ContainerInterface;
@@ -14,17 +14,15 @@ use Psr\Container\ContainerInterface;
  * and cached for reuse. The container handles dependencies between services and
  * provides a way to customize service instantiation through bindings.
  *
- * ```php
- * // Retrieving a service instance
- * $downloader = $container->get(Downloader::class);
- *
- * // Binding a factory for service creation
- * $container->bind(Logger::class, function (Container $c) {
- *     return new Logger($c->get(OutputInterface::class));
- * });
  * ```
+ *  // Retrieving a service instance
+ *  $downloader = $container->get(Downloader::class);
  *
- * @internal
+ *  // Binding a factory for service creation
+ *  $container->bind(Logger::class, function (Container $c) {
+ *      return new Logger($c->get(OutputInterface::class));
+ *  });
+ * ```
  */
 interface Container extends Destroyable, ContainerInterface
 {

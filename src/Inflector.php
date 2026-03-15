@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Testo\Common;
+namespace Internal\Container;
 
 /**
  * Container inflector interface.
- *
- * @internal
  */
 interface Inflector
 {

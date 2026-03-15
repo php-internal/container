@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Testo\Application\Internal;
+namespace Internal\Container;
 
-use Testo\Application\Internal\Container\State;
-use Testo\Common\Container;
-use Testo\Common\Inflector;
+use Internal\Container\Interanl\State;
 
 /**
  * Simple dependency injection container.
