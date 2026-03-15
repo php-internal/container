@@ -15,6 +15,7 @@ use Testo\Common\Inflector;
  * Automatically loads configuration for config classes.
  *
  * @internal
+ * @psalm-internal Testo\Application
  */
 final class ObjectContainer implements Container
 {
