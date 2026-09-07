@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Internal\Container;
 
-use Internal\Container\Interanl\State;
+use Internal\Container\Internal\State;
 
 /**
  * Simple dependency injection container.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Internal\Container\Interanl;
+namespace Internal\Container\Internal;
 
 use Internal\Container\Container;
 use Internal\Container\Factoriable;
