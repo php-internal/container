@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/php-internal/container/compare/1.0.0...1.0.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* resolve all psalm issues and drop the baseline ([7ad74dc](https://github.com/php-internal/container/commit/7ad74dc6717ef787d5fa13312145a0184373e51c))
+
 ## 1.0.0 (2026-09-07)
 
 
