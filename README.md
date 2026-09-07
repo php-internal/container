@@ -1,9 +1,14 @@
-<p align="center">Container</p>
+<div align="center">
+
+# Container
+
+</div>
 
 <p align="center">A lightweight PSR-11 container for CLI tools</p>
 
 <div align="center">
 
+![Vibe Index](https://img.shields.io/badge/Indexing%20Vibe-6168e5?style=flat-square)
 [![Support](https://img.shields.io/static/v1?style=flat-square&label=Support&message=%E2%9D%A4&logo=GitHub&color=%23fe0086)](https://boosty.to/roxblnfk)
 
 </div>
