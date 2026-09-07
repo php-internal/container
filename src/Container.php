@@ -31,12 +31,12 @@ interface Container extends Destroyable, ContainerInterface
      *
      * If the service is requested for the first time, it will be instantiated and persisted for future requests.
      *
-     * @template T
+     * @template T of object
      * @param class-string<T> $id Service identifier
      * @param array<string, mixed> $arguments Constructor arguments used only on first instantiation
      * @return T The requested service instance
      *
-     * @psalm-suppress MoreSpecificImplementedParamType, InvalidReturnType
+     * @psalm-suppress MoreSpecificImplementedParamType
      */
     #[\Override]
     public function get(string $id, array $arguments = []): object;
@@ -57,7 +57,7 @@ interface Container extends Destroyable, ContainerInterface
     /**
      * Registers an existing service instance in the container.
      *
-     * @template T
+     * @template T of object
      * @param T $service Service instance to register
      * @param class-string<T>|null $id Optional service identifier (defaults to object's class)
      * @param bool $destroy Whether the container should manage the service's lifecycle and call its destroy
@@ -68,7 +68,7 @@ interface Container extends Destroyable, ContainerInterface
     /**
      * Creates a new instance without storing it in the container.
      *
-     * @template T
+     * @template T of object
      * @param class-string<T> $class Class to instantiate
      * @param array<string, mixed> $arguments Constructor arguments
      * @return T Newly created instance
@@ -80,7 +80,7 @@ interface Container extends Destroyable, ContainerInterface
      *
      * Configures how a service should be instantiated.
      *
-     * @template T
+     * @template T of object
      * @param class-string<T> $id Service identifier
      * @param null|class-string<T>|array<string, mixed>|\Closure(Container): T $binding Factory
      *        function, constructor arguments, or alias class name.

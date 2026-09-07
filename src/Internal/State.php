@@ -42,18 +42,9 @@ final class State
 
     private ObjectContainer $container;
 
-    /**
-     * @psalm-suppress PropertyTypeCoercion
-     */
     public function __construct(ObjectContainer $container)
     {
-        $this->container = $container;
-        $this->injector = (new Injector($container))->withCacheReflections(false);
-        $this->cache[Injector::class] = $this->injector;
-        $this->cache[Container::class] = $container;
-        $this->cache[self::class] = $container;
-        $this->cache[ObjectContainer::class] = $container;
-        $this->cache[ContainerInterface::class] = $container;
+        $this->init($container);
     }
 
     public function addInflector(Inflector $inflector): void
@@ -62,19 +53,21 @@ final class State
     }
 
     /**
-     * @template T
+     * @template T of object
      * @param class-string<T> $id
      * @param array<string, mixed> $arguments
      * @return T
      */
     public function get(string $id, array $arguments = []): object
     {
-        $result = $this->cache[$id] ?? null;
-
-        if ($result === null) {
-            $this->cache[$id] = $result = $this->make($id, $arguments);
-            $result instanceof Destroyable and $this->destroy[\spl_object_id($result)] = $result;
+        if (isset($this->cache[$id])) {
+            /** @var T */
+            return $this->cache[$id];
         }
+
+        $result = $this->make($id, $arguments);
+        $this->cache[$id] = $result;
+        $result instanceof Destroyable and $this->destroy[\spl_object_id($result)] = $result;
 
         return $result;
     }
@@ -84,6 +77,9 @@ final class State
         return \array_key_exists($id, $this->cache) || \array_key_exists($id, $this->factory);
     }
 
+    /**
+     * @param class-string|null $id
+     */
     public function set(object $service, ?string $id = null, bool $destroy = false): void
     {
         $this->cache[$id ?? $service::class] = $service;
@@ -91,7 +87,7 @@ final class State
     }
 
     /**
-     * @template T
+     * @template T of object
      * @param class-string<T> $class
      * @param array<string, mixed> $arguments
      * @return T
@@ -116,13 +112,13 @@ final class State
             $result = $inflector->inflect($result, $this->container);
         }
 
+        /** @var T $result */
         return $result;
     }
 
     /**
-     * @template T
-     * @param class-string<T> $id
-     * @param null|class-string<T>|array<string, mixed>|\Closure(mixed ...): T $binding
+     * @param class-string $id
+     * @param null|class-string|array<string, mixed>|\Closure(mixed ...): object $binding
      */
     public function bind(string $id, \Closure|string|array|null $binding = null): void
     {
@@ -136,18 +132,14 @@ final class State
                 "Alias for `$id` must be instance of `$id`, `$binding` given.",
             );
 
-            /** @var class-string<T> $binding */
             $binding = match (true) {
                 $id !== $binding => static fn(self $self): object => $self->get($binding),
-                // \is_a($binding, Factoriable::class, true) => static fn(self $self): object => $binding::create(...),
                 \is_a($binding, Factoriable::class, true) => static fn(self $self): object => $self
-                    ->injector->invoke($binding::create(...)),
+                    ->invoke($binding::create(...)),
                 default => static fn(self $self): object => $self->injector->make($binding),
             };
         } elseif ($binding instanceof \Closure) {
-            $binding = static fn(self $self): object => $self->injector->invoke($binding);
-        } elseif ($binding === null) {
-            $binding = [];
+            $binding = static fn(self $self): object => $self->invoke($binding);
         }
 
         $this->factory[$id] = $binding;
@@ -169,7 +161,7 @@ final class State
     {
         $self = clone $this;
         [$cache, $self->cache, $self->destroy] = [$self->cache, [], []];
-        $self->__construct($container);
+        $self->init($container);
 
         /** @var array<int, object> $cloned */
         $cloned = [];
@@ -190,12 +182,40 @@ final class State
             if ($c === null) {
                 $c = clone $service;
                 $cloned[$oid] = $c;
-                $reflection->implementsInterface(Destroyable::class) and $self->destroy[\spl_object_id($c)] = $c;
+                $c instanceof Destroyable and $self->destroy[\spl_object_id($c)] = $c;
             }
 
             $self->cache[$id] = $c;
         }
 
         return $self;
+    }
+
+    private function init(ObjectContainer $container): void
+    {
+        $this->container = $container;
+        $this->injector = (new Injector($container))->withCacheReflections(false);
+
+        $this->cache = [
+            Injector::class => $this->injector,
+            Container::class => $container,
+            self::class => $container,
+            ObjectContainer::class => $container,
+            ContainerInterface::class => $container,
+        ];
+    }
+
+    /**
+     * Invokes a factory closure through the injector and guards its result type.
+     */
+    private function invoke(\Closure $factory): object
+    {
+        /** @var mixed $result */
+        $result = $this->injector->invoke($factory);
+        \is_object($result) or throw new \RuntimeException(
+            \sprintf('Factory must return an object, `%s` returned.', \get_debug_type($result)),
+        );
+
+        return $result;
     }
 }

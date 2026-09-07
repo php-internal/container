@@ -38,6 +38,11 @@ final class ObjectContainer implements Container
         return $this->state->has($id);
     }
 
+    /**
+     * @template T of object
+     * @param T $service
+     * @param class-string<T>|null $id
+     */
     #[\Override]
     public function set(object $service, ?string $id = null, bool $destroy = false): void
     {
@@ -57,6 +62,12 @@ final class ObjectContainer implements Container
         $this->state->bind($id, $binding);
     }
 
+    /**
+     * @template T
+     * @param \Closure(Container): T $scope
+     * @return T
+     * @throws \Throwable
+     */
     #[\Override]
     public function scope(\Closure $scope): mixed
     {
@@ -70,21 +81,26 @@ final class ObjectContainer implements Container
 
             // Wrap scope into fiber
             $fiber = new \Fiber(static fn(ObjectContainer $c) => $scope($c));
+            /** @var mixed $value */
             $value = $fiber->start($this);
             while (!$fiber->isTerminated()) {
                 $this->state = $oldState;
                 try {
+                    /** @var mixed $resume */
                     $resume = \Fiber::suspend($value);
                 } catch (\Throwable $e) {
                     $this->state = $newState;
+                    /** @var mixed $value */
                     $value = $fiber->throw($e);
                     continue;
                 }
 
                 $this->state = $newState;
+                /** @var mixed $value */
                 $value = $fiber->resume($resume);
             }
 
+            /** @var T */
             return $fiber->getReturn();
         } finally {
             $this->state = $oldState;
@@ -99,7 +115,7 @@ final class ObjectContainer implements Container
         unset($this->state);
     }
 
-    public function __clone(): void
+    public function __clone()
     {
         $this->state = clone $this->state;
     }
