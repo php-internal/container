@@ -11,9 +11,6 @@ use Internal\Container\Internal\State;
  *
  * Provides service creation and caching with autowiring capabilities.
  * Automatically loads configuration for config classes.
- *
- * @internal
- * @psalm-internal Testo\Application
  */
 final class ObjectContainer implements Container
 {

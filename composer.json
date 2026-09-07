@@ -13,7 +13,7 @@
     ],
     "authors": [
         {
-            "name": "Aleksei Gagarin (roxblnfk)",
+            "name": "Aleksei Gagarin",
             "homepage": "https://github.com/roxblnfk"
         }
     ],
@@ -30,11 +30,12 @@
         "yiisoft/injector": "^1.2"
     },
     "require-dev": {
+        "llm/skills": "^1.12",
         "revolt/event-loop": "^1.0",
         "spiral/code-style": "^2.3.1",
         "testo/codecov": "^0.2.1",
         "testo/fiber": "^0.1.3",
-        "testo/testo": "^0.10.45",
+        "testo/testo": "^0.10.46",
         "vimeo/psalm": "^6.10 || ^7.0"
     },
     "provide": {
@@ -55,7 +56,8 @@
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true,
-            "infection/extension-installer": true
+            "infection/extension-installer": true,
+            "llm/skills": true
         },
         "audit": {
             "abandoned": "report"
@@ -68,9 +70,7 @@
         "psalm": "psalm",
         "psalm:baseline": "psalm --set-baseline=psalm-baseline.xml",
         "psalm:ci": "psalm --output-format=github --shepherd --show-info=false --stats --threads=4",
-        "test": [
-            "testo --ansi --no-coverage"
-        ],
+        "test": "testo",
         "test:cc": [
             "@putenv XDEBUG_MODE=coverage",
             "testo --ansi --coverage-clover=runtime/coverage/clover.xml"
