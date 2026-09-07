@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="6.16.1@f1f5de594dc76faf8784e02d3dc4716c91c6f6ac">
+  <file src="src/Internal/State.php">
+    <DirectConstructorCall>
+      <code><![CDATA[$self->__construct($container)]]></code>
+    </DirectConstructorCall>
+    <DocblockTypeContradiction>
+      <code><![CDATA[$binding === null]]></code>
+      <code><![CDATA[$id === $binding or \is_a($binding, $id, true)]]></code>
+      <code><![CDATA[\is_a($binding, Factoriable::class, true) => static fn(self $self): object => $self
+                    ->injector->invoke($binding::create(...))]]></code>
+    </DocblockTypeContradiction>
+    <InvalidCast>
+      <code><![CDATA[$binding]]></code>
+    </InvalidCast>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->factory]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$result]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[T]]></code>
+      <code><![CDATA[T]]></code>
+    </InvalidReturnType>
+    <MixedReturnStatement>
+      <code><![CDATA[$self
+                    ->injector->invoke($binding::create(...))]]></code>
+      <code><![CDATA[$self->injector->invoke($binding)]]></code>
+    </MixedReturnStatement>
+    <PropertyTypeCoercion>
+      <code><![CDATA[$self->destroy]]></code>
+      <code><![CDATA[$this->cache]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/ObjectContainer.php">
+    <MethodSignatureMustOmitReturnType>
+      <code><![CDATA[public function __clone(): void]]></code>
+    </MethodSignatureMustOmitReturnType>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$service]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$resume]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedReturnStatement>
+      <code><![CDATA[$fiber->getReturn()]]></code>
+    </MixedReturnStatement>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$service]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+</files>

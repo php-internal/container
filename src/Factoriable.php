@@ -26,7 +26,6 @@ namespace Internal\Container;
  *  $container->get(Config::class); // Will be created via the `create()` method with autowiring
  * ```
  *
- * @method static self create
- *         Method creates new instance of the class with injectable parameters
+ * @method static static create() Creates a new instance; parameters are autowired by the container.
  */
 interface Factoriable {}

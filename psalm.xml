@@ -5,6 +5,7 @@
        errorLevel="1"
        findUnusedBaselineEntry="false"
        findUnusedCode="false"
+       errorBaseline="psalm-baseline.xml"
        phpVersion="8.2"
 >
     <issueHandlers>
