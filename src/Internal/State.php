@@ -39,6 +39,7 @@ final class State
 
     /** @var array<int, Destroyable> */
     private array $destroy = [];
+
     private ObjectContainer $container;
 
     /**
