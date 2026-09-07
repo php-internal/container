@@ -1,0 +1,79 @@
+{
+    "name": "internal/container",
+    "description": "Lightweight PSR-11 container for CLI tools: autowiring, scopes, inflectors and explicit destruction without a DI framework.",
+    "license": "BSD-3-Clause",
+    "type": "library",
+    "keywords": [
+        "container",
+        "dependency injection",
+        "psr-11",
+        "autowiring",
+        "cli",
+        "console"
+    ],
+    "authors": [
+        {
+            "name": "Aleksei Gagarin (roxblnfk)",
+            "homepage": "https://github.com/roxblnfk"
+        }
+    ],
+    "funding": [
+        {
+            "type": "boosty",
+            "url": "https://boosty.to/roxblnfk"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "internal/destroy": "^1.0",
+        "psr/container": "1 - 2",
+        "yiisoft/injector": "^1.2"
+    },
+    "require-dev": {
+        "revolt/event-loop": "^1.0",
+        "spiral/code-style": "^2.3.1",
+        "testo/codecov": "^0.2.1",
+        "testo/fiber": "^0.1.3",
+        "testo/testo": "^0.10.45",
+        "vimeo/psalm": "^6.10 || ^7.0"
+    },
+    "provide": {
+        "psr/container-implementation": "1.0 - 2.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Internal\\Container\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Internal\\Container\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "infection/extension-installer": true
+        },
+        "audit": {
+            "abandoned": "report"
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "cs:diff": "php-cs-fixer fix --dry-run -v --diff",
+        "cs:fix": "php-cs-fixer fix -v",
+        "psalm": "psalm",
+        "psalm:baseline": "psalm --set-baseline=psalm-baseline.xml",
+        "psalm:ci": "psalm --output-format=github --shepherd --show-info=false --stats --threads=4",
+        "test": [
+            "testo --ansi --no-coverage"
+        ],
+        "test:cc": [
+            "@putenv XDEBUG_MODE=coverage",
+            "testo --ansi --coverage-clover=runtime/coverage/clover.xml"
+        ]
+    }
+}
