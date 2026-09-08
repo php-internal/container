@@ -1,0 +1,13 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "testFramework": "testo",
+    "tmpDir": "runtime",
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "mutators": {
+        "@default": true
+    }
+}
