@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/php-internal/container/compare/1.0.1...1.1.0) (2026-09-08)
+
+
+### Features
+
+* support PHP 8.1 via #[ScopeShared] attribute ([#5](https://github.com/php-internal/container/issues/5)) ([76dfe0b](https://github.com/php-internal/container/commit/76dfe0be031738e80a4c2dea044c523cff53c403))
+
+
+### Documentation
+
+* restyle README header and add quality badges ([86f3639](https://github.com/php-internal/container/commit/86f3639b2922c51a6d2606231869712f42ea18b8))
+
 ## [1.0.1](https://github.com/php-internal/container/compare/1.0.0...1.0.1) (2026-09-07)
 
 
