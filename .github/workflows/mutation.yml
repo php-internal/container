@@ -57,3 +57,5 @@ jobs:
 
       - name: 🧬 Run mutation testing using infection/infection
         run: composer infection:ci
+        env:
+          STRYKER_DASHBOARD_API_KEY: ${{ github.event_name == 'push' && secrets.STRYKER_DASHBOARD_API_KEY || '' }}

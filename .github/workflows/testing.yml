@@ -51,3 +51,36 @@ jobs:
 
       - name: 🧪 Run tests
         run: composer test
+
+  coverage:
+    timeout-minutes: 4
+    runs-on: ubuntu-latest
+    env:
+      COMPOSER_ROOT_VERSION: '1.x-dev'
+    concurrency:
+      cancel-in-progress: true
+      group: coverage-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    steps:
+      - name: 📦 Check out the codebase
+        uses: actions/checkout@v6
+
+      - name: 🛠️ Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          ini-values: error_reporting=E_ALL
+          coverage: xdebug
+
+      - name: 📥 Install dependencies with composer
+        uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: highest
+
+      - name: 🧪 Run tests with coverage
+        run: composer test:cc
+
+      - name: 📤 Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: runtime/coverage/clover.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
