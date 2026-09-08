@@ -69,6 +69,14 @@
     "scripts": {
         "cs:diff": "php-cs-fixer fix --dry-run -v --diff",
         "cs:fix": "php-cs-fixer fix -v",
+        "infection": [
+            "@putenv XDEBUG_MODE=coverage",
+            "infection --threads=max --no-progress"
+        ],
+        "infection:ci": [
+            "@putenv XDEBUG_MODE=coverage",
+            "infection --threads=max --no-progress --min-msi=100 --logger-github"
+        ],
         "psalm": "psalm",
         "psalm:ci": "psalm --output-format=github --shepherd --show-info=false --stats --threads=4",
         "test": "testo",
