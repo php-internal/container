@@ -8,18 +8,19 @@
 
 <div align="center">
 
-[![Vibe Index](https://img.shields.io/static/v1?label=Vibe+Index&message=1.5&color=1fb684&style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZiI%2BPHBhdGggZD0iTTkgNCBROSAxMyAxOCAxMyBROSAxMyA5IDIyIFE5IDEzIDAgMTMgUTkgMTMgOSA0IFoiLz48cGF0aCBkPSJNMTkgMSBRMTkgNiAyNCA2IFExOSA2IDE5IDExIFExOSA2IDE0IDYgUTE5IDYgMTkgMSBaIi8%2BPHBhdGggZD0iTTIwIDE0IFEyMCAxOCAyNCAxOCBRMjAgMTggMjAgMjIgUTIwIDE4IDE2IDE4IFEyMCAxOCAyMCAxNCBaIi8%2BPC9zdmc%2B)](https://github.com/roxblnfk/action-vibe-index)
-[![Support](https://img.shields.io/static/v1?style=flat-square&label=Support&message=%E2%9D%A4&logo=GitHub&color=%23fe0086)](https://boosty.to/roxblnfk)
+[![Support on Boosty](https://img.shields.io/static/v1?style=for-the-badge&label=&message=Sponsorship&logo=Boosty&logoColor=white&color=%23F15F2C)](https://boosty.to/roxblnfk)
+
+[![Vibe Index](https://img.shields.io/static/v1?label=Vibe+Index&message=1.5&color=1fb684&style=flat&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZiI%2BPHBhdGggZD0iTTkgNCBROSAxMyAxOCAxMyBROSAxMyA5IDIyIFE5IDEzIDAgMTMgUTkgMTMgOSA0IFoiLz48cGF0aCBkPSJNMTkgMSBRMTkgNiAyNCA2IFExOSA2IDE5IDExIFExOSA2IDE0IDYgUTE5IDYgMTkgMSBaIi8%2BPHBhdGggZD0iTTIwIDE0IFEyMCAxOCAyNCAxOCBRMjAgMTggMjAgMjIgUTIwIDE4IDE2IDE4IFEyMCAxOCAyMCAxNCBaIi8%2BPC9zdmc%2B)](https://github.com/roxblnfk/action-vibe-index)
+[![Psalm Level](https://shepherd.dev/github/php-internal/container/level.svg)](https://shepherd.dev/github/php-internal/container)
+[![Type Coverage](https://shepherd.dev/github/php-internal/container/coverage.svg)](https://shepherd.dev/github/php-internal/container)
+[![codecov](https://codecov.io/gh/php-internal/container/branch/1.x/graph/badge.svg)](https://codecov.io/gh/php-internal/container)
+[![Mutation testing badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fphp-internal%2Fcontainer%2F1.x)](https://dashboard.stryker-mutator.io/reports/github.com/php-internal/container/1.x)
 
 </div>
 
 <br />
 
-A small PSR-11 container for command-line tools and other short-lived PHP processes: autowiring, a handful of
-bindings and deterministic cleanup without a full-blown DI framework. No compilation, no config files, no lazy
-proxies, nothing to set up beyond `new ObjectContainer()`. It was born in
-[Trap](https://github.com/buggregator/trap), grew up in [DLoad](https://github.com/php-internal/dload) and
-[Testo](https://github.com/php-testo/testo), and is extracted here so all of them can share one implementation.
+A small PSR-11 container for command-line tools and other short-lived PHP processes: autowiring, a handful of bindings and deterministic cleanup without a full-blown DI framework. No compilation, no config files, no lazy proxies, nothing to set up beyond `new ObjectContainer()`. It was born in [Trap](https://github.com/buggregator/trap), grew up in [DLoad](https://github.com/php-internal/dload) and [Testo](https://github.com/php-testo/testo), and is extracted here so all of them can share one implementation.
 
 What it does:
 
@@ -70,8 +71,7 @@ $request = $container->make(Request::class, ['uri' => '/']);
 
 ### Factoriable
 
-A class that needs custom construction implements `Factoriable` and exposes a static `create()`.
-The container calls it with autowired parameters instead of the constructor.
+A class that needs custom construction implements `Factoriable` and exposes a static `create()`. The container calls it with autowired parameters instead of the constructor.
 
 ```php
 use Internal\Container\Factoriable;
@@ -106,9 +106,7 @@ $container->addInflector(new class implements Inflector {
 
 ### Scopes
 
-`scope()` runs a closure against a child state. Bindings are inherited, cached services are cloned into
-the scope (readonly objects and enums are shared as is), and everything resolved inside is destroyed
-when the closure returns. The parent state is left untouched.
+`scope()` runs a closure against a child state. Bindings are inherited, cached services are cloned into the scope (readonly objects and enums are shared as is), and everything resolved inside is destroyed when the closure returns. The parent state is left untouched.
 
 ```php
 $result = $container->scope(static function (Container $scoped): Result {
@@ -118,9 +116,7 @@ $result = $container->scope(static function (Container $scoped): Result {
 });
 ```
 
-Scopes are fiber-aware: a scope opened outside an event loop is the active one for everything
-that runs on the loop under it.
-Opening a scope inside a loop-driven fiber and suspending within it is not supported.
+Scopes are fiber-aware: a scope opened outside an event loop is the active one for everything that runs on the loop under it. Opening a scope inside a loop-driven fiber and suspending within it is not supported.
 
 ## Testing
 
