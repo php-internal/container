@@ -6,6 +6,7 @@ on:  # yamllint disable-line rule:truthy
       - 'src/**'
       - 'tests/**'
       - 'infection.json'
+      - 'tools/infection/composer.json'
       - 'composer.*'
       - '.github/workflows/mutation.yml'
   push:
@@ -13,6 +14,7 @@ on:  # yamllint disable-line rule:truthy
       - 'src/**'
       - 'tests/**'
       - 'infection.json'
+      - 'tools/infection/composer.json'
       - 'composer.*'
       - '.github/workflows/mutation.yml'
 
@@ -54,6 +56,10 @@ jobs:
         uses: ramsey/composer-install@v3
         with:
           dependency-versions: ${{ matrix.dependencies }}
+
+      # Infection is isolated via bamarni/composer-bin-plugin and not installed by the root install.
+      - name: 🧬 Install isolated Infection
+        run: composer bin infection install
 
       - name: 🧬 Run mutation testing using infection/infection
         run: composer infection:ci

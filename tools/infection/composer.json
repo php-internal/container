@@ -1,0 +1,13 @@
+{
+    "require": {
+        "infection/infection": "^0.35.4",
+        "testo/bridge-infection": "^0.1.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

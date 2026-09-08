@@ -6,6 +6,7 @@ on:  # yamllint disable-line rule:truthy
       - 'src/**'
       - '.php-cs-fixer.dist.php'
       - 'psalm*'
+      - 'tools/psalm/composer.json'
       - 'composer.*'
       - '.github/workflows/static-analysis.yml'
   push:
@@ -13,6 +14,7 @@ on:  # yamllint disable-line rule:truthy
       - 'src/**'
       - '.php-cs-fixer.dist.php'
       - 'psalm*'
+      - 'tools/psalm/composer.json'
       - 'composer.*'
       - '.github/workflows/static-analysis.yml'
 
@@ -57,6 +59,10 @@ jobs:
         uses: ramsey/composer-install@v3
         with:
           dependency-versions: ${{ matrix.dependencies }}
+
+      # Psalm is isolated via bamarni/composer-bin-plugin and not installed by the root install.
+      - name: 🔍 Install isolated Psalm
+        run: composer bin psalm install
 
       - name: 🔍 Run static analysis using vimeo/psalm
         run: composer psalm:ci
