@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Internal\Container\Internal;
 
+use Internal\Container\Attribute\ScopeShared;
 use Internal\Container\Container;
 use Internal\Container\Factoriable;
 use Internal\Container\Inflector;
@@ -172,7 +173,11 @@ final class State
             }
 
             $reflection = new \ReflectionClass($service);
-            if ($reflection->isReadOnly() || $reflection->isEnum()) {
+            if (
+                $reflection->isEnum()
+                || (PHP_VERSION_ID >= 80200 && $reflection->isReadOnly())
+                || $reflection->getAttributes(ScopeShared::class) !== []
+            ) {
                 $self->cache[$id] = $service;
                 continue;
             }
